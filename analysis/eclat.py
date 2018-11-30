@@ -1,6 +1,7 @@
 """
     Standard Eclat Algorithm
 """
+import pandas as pd
 
 class Node:
     """ 
@@ -70,7 +71,7 @@ def eclat(data, features = None):
 
         Arguments:
             data {pd DataFrame} -- Data
-            features {None / List / Dict} -- Feautres to explore
+            features {None / List / Dict} -- Features to explore
                 If None -> All features in data
                 If List -> Only the one in the list (has to be present in data)
                 If Dict -> Keys are used has node and values has to be list of features present in data
@@ -93,3 +94,19 @@ def eclat(data, features = None):
         result.addChild(eclat_rec(data, features, keys[i:]))
 
     return result
+
+def eclat_multiple_files(data_list, features = None):
+    """
+        In the case of multiple files (for instance time series)
+        For which you want to check the overlapping features
+        
+        Arguments:
+            data_list {List data structure} -- Different time series
+        
+        Keyword Arguments:
+            features {Dict / List / None} -- Features to explore
+    """
+    featured_data = {}
+    for i, d in enumerate(data_list):
+        featured_data[i] = {feat: d[feat].notna().mean() for feat in d.columns}
+    return eclat(pd.DataFrame.from_dict(featured_data, orient='index'), features)
