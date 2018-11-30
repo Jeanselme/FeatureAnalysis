@@ -26,4 +26,4 @@ buildGraph(features).render('examples/subset')
 # Two files
 features = eclat_multiple_files([missing, no_missing, subset])
 print(features)
-buildGraph(features).render('examples/subset')
+buildGraph(features).render('examples/multiple_files')
