@@ -54,9 +54,6 @@ def eclat_rec(data, features, keysToExplore):
         na = data.notna()[features[name]].any(axis = 1)
         count = na.sum()
         
-        # Select index
-        indexToExplore = data[na].index
-
         if count > 0:
             newNode = Node(name, count)
             for i in range(lenKeys - 1):
