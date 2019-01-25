@@ -14,13 +14,11 @@ def buildGraph(node, graph = None, minCount = 10):
     if graph is None:
         graph = Digraph()
 
-    if node.count <= minCount:
-        return apply_styles(graph) 
-
     graph.node(str(node.id), label=node.name)
     for child in node.children:
-        graph.edge(str(node.id), str(child.id), label=str(child.count))
-        graph = buildGraph(child, graph, minCount)
+        if child.count <= minCount:
+            graph.edge(str(node.id), str(child.id), label=str(child.count))
+            graph = buildGraph(child, graph, minCount)
         
     return apply_styles(graph)
 
