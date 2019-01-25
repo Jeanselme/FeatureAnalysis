@@ -1,6 +1,6 @@
 from graphviz import Digraph
 
-def buildGraph(node, graph = None):
+def buildGraph(node, graph = None, minCount = 10):
     """
         Creates a graph for the current node
     
@@ -14,10 +14,13 @@ def buildGraph(node, graph = None):
     if graph is None:
         graph = Digraph()
 
+    if node.count <= minCount:
+        return apply_styles(graph) 
+
     graph.node(str(node.id), label=node.name)
     for child in node.children:
         graph.edge(str(node.id), str(child.id), label=str(child.count))
-        graph = buildGraph(child, graph)
+        graph = buildGraph(child, graph, minCount)
         
     return apply_styles(graph)
 
