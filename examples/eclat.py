@@ -27,3 +27,6 @@ buildGraph(features).render('examples/subset')
 features = eclat_multiple_files([missing, no_missing, subset])
 print(features)
 buildGraph(features).render('examples/multiple_files')
+
+# Only principal branch
+buildGraph(features, mainBranch = True, minCount = 3).render('examples/multiple_files_main_branch')
