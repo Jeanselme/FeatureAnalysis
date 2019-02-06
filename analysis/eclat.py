@@ -29,10 +29,14 @@ class Node:
         if child is not None:
             self.children.append(child)
 
-    def __str__(self, move = 0):
+    def __str__(self, move = 0, minCount = 0, mainBranch = False):
         string = "| " * move + " + Node : {} - Count : {} \n".format(self.name, self.count)
         for child in self.children:
-            string += child.__str__(move + 1)
+            if child.count >= minCount:
+                string += child.__str__(move + 1, minCount, mainBranch)
+            if mainBranch:
+                # Main branch only look at the first child
+                break
         return string
 
 def eclat_rec(data, features, keysToExplore):

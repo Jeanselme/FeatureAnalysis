@@ -30,3 +30,4 @@ buildGraph(features).render('examples/multiple_files')
 
 # Only principal branch
 buildGraph(features, mainBranch = True, minCount = 3).render('examples/multiple_files_main_branch')
+print(features.__str__(mainBranch = True, minCount = 3))
