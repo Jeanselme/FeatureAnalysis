@@ -1,6 +1,6 @@
 from graphviz import Digraph
 
-def buildGraph(node, graph = None, minCount = 0, mainBranch = False):
+def buildGraph(node, graph = None, mainBranch = False):
     """
         Creates a graph for the current node
     
@@ -18,9 +18,8 @@ def buildGraph(node, graph = None, minCount = 0, mainBranch = False):
     graph.node(str(node.id), label=node.name)
 
     for child in node.children:
-        if child.count >= minCount:
-            graph.edge(str(node.id), str(child.id), label=str(child.count))
-            graph = buildGraph(child, graph, minCount, mainBranch)
+        graph.edge(str(node.id), str(child.id), label=str(child.count))
+        graph = buildGraph(child, graph, mainBranch)
         if mainBranch:
             # Main branch only look at the first child
             break
