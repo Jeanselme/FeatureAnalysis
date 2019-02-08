@@ -31,7 +31,7 @@ class Node:
 
     def __str__(self, move = 0, mainBranch = False):
         string = "| " * move + " + Node : {} - Count : {} \n".format(self.name, self.count)
-        for child in self.children:
+        for child in sorted(self.children, key = lambda c: c.count)[::-1]:
             string += child.__str__(move + 1, mainBranch)
             if mainBranch:
                 # Main branch only look at the first child
