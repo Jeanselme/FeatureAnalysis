@@ -2,6 +2,7 @@
     Standard Eclat Algorithm
 """
 import pandas as pd
+from tqdm import tqdm
 
 class Node:
     """ 
@@ -54,8 +55,8 @@ def eclat_rec(data, features, keysToExplore, minCount = 1):
         name = keysToExplore[0]
 
         # Compute for each datapoint if any is not na in list of features
-        na = data[features[name]].notna()
-        count = na.sum()[0]
+        na = data[features[name]].notna().sum(axis = 1) > 0
+        count = na.sum()
         
         if count >= minCount:
             newNode = Node(name, count)
@@ -92,7 +93,7 @@ def eclat(data, features = None, minCount = 1):
 
     keys = list(features.keys())
     result = Node("Data", len(data))
-    for i in range(len(features)):
+    for i in tqdm(range(len(features))):
         result.addChild(eclat_rec(data, features, keys[i:], minCount))
 
     return result
