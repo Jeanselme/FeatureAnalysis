@@ -2,7 +2,7 @@
     Standard Eclat Algorithm
 """
 import pandas as pd
-from tqdm import tqdm
+from tqdm import trange
 
 class Node:
     """ 
@@ -55,7 +55,7 @@ def eclat_rec(data, features, keysToExplore, minCount = 1):
         name = keysToExplore[0]
 
         # Compute for each datapoint if any is not na in list of features
-        na = data[features[name]].notna().sum(axis = 1) > 0
+        na = data[features[name]].sum(axis = 1) > 0
         count = na.sum()
         
         if count >= minCount:
@@ -79,6 +79,9 @@ def eclat(data, features = None, minCount = 1):
     """
     assert minCount >= 1
     assert minCount <= len(data), "Cut {} has to be lower than the number of datapoints {}".format(minCount, len(data))
+
+    data = data.notna()
+    
     if features is None:
         features = data.columns
         features = {f:[f] for f in features}
@@ -93,7 +96,7 @@ def eclat(data, features = None, minCount = 1):
 
     keys = list(features.keys())
     result = Node("Data", len(data))
-    for i in tqdm(range(len(features))):
+    for i in trange(len(features)):
         result.addChild(eclat_rec(data, features, keys[i:], minCount))
 
     return result
