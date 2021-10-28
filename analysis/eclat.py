@@ -54,8 +54,8 @@ def eclat_rec(data, features, keysToExplore, minCount = 1):
         name = keysToExplore[0]
 
         # Compute for each datapoint if any is not na in list of features
-        na = data.notna()[features[name]].any(axis = 1)
-        count = na.sum()
+        na = data[features[name]].notna()
+        count = na.sum()[0]
         
         if count >= minCount:
             newNode = Node(name, count)
